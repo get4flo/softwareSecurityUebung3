@@ -1,0 +1,9 @@
+{
+  "name": "pwn-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "mounts": ["source=${localWorkspaceFolder},target=/code,type=bind"],
+  "workspaceFolder": "/code",
+  "postCreateCommand": "apt update && apt install -y git gdb gdbserver tmux socat python3 python3-pip python3-venv && python3 -m venv venv && . ./venv/bin/activate && ./venv/bin/pip install pwntools patchelf",
+}

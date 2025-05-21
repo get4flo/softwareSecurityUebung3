@@ -11,12 +11,34 @@ pwn template --host homework --port 1337 ./homework
 # to run exploit run
 docker compose up exploit
 
+# get ip of docker container
+docker inspect \
+  -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 97be3422162e
+
+# run exploit script locally, but exploit binary in docker container
+args.HOST = "localhost"
+
+# gbd debug
+info proc mappings
+
+# tmux scroll
+strg + b -> [ -> now scalling possible -> q (quit) 
+
+# local execution in devcontainer with debugging
+python3 exploit.py LOCAL GDB
 
 
 # attack ideas
 
 13_readFile(void) -> buffer overflow line 13
 
+# tmp
+
+fread at 0x5a6d83863070
+
+(gdb) x/4gx $rsp
+0x7ffea1fb14c8: 0x00005a6d838641a6      0x0000000a3e10a020
+0x7ffea1fb14d8: 0x00005a6d88f8f940      0x00007ffea1fb1500
 
 #---------------------------------------------------------------------------------
 # code
