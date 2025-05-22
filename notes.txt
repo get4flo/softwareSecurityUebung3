@@ -27,18 +27,21 @@ strg + b -> [ -> now scalling possible -> q (quit)
 # local execution in devcontainer with debugging
 python3 exploit.py LOCAL GDB
 
+# start devcontainer development
+source venv/bin/activate
+tmux
+python3 exploit.py LOCAL GDB
+
 
 # attack ideas
 
 13_readFile(void) -> buffer overflow line 13
 
+# how to write memory, what is written (song record?), at PIE_BASE + 0x5130 -> lokal pointer (PIE leak) -> need to read
+
 # tmp
-
-fread at 0x5a6d83863070
-
-(gdb) x/4gx $rsp
-0x7ffea1fb14c8: 0x00005a6d838641a6      0x0000000a3e10a020
-0x7ffea1fb14d8: 0x00005a6d88f8f940      0x00007ffea1fb1500
+info proc mappings
+x/8gx 0x617d56fa2000 + 0x5100
 
 #---------------------------------------------------------------------------------
 # code
