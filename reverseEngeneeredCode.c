@@ -1,57 +1,3 @@
-# commands
-
-# get version of library .so file
-# here: GNU C Library (Debian GLIBC 2.36-9+deb12u10) stable release version 2.36.
-strings libc.so.6 | grep -i version
-
-# create exploit template for binary
-# code printed to shell -> store in exploit.py
-pwn template --host homework --port 1337 ./homework
-
-# to run exploit run
-docker compose up exploit
-
-# get ip of docker container
-docker inspect \
-  -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 97be3422162e
-
-# run exploit script locally, but exploit binary in docker container
-args.HOST = "localhost"
-
-# gbd debug
-info proc mappings
-
-# tmux scroll
-strg + b -> [ -> now scalling possible -> q (quit) 
-
-# local execution in devcontainer with debugging
-python3 exploit.py LOCAL GDB
-
-# start devcontainer development
-source venv/bin/activate
-tmux
-python3 exploit.py LOCAL GDB
-
-# get libc version
-./libc.so.6 --version
-
-
-# attack ideas
-
-13_readFile(void) -> buffer overflow line 13
-
-# how to write memory, what is written (song record?), at PIE_BASE + 0x5130 -> lokal pointer (PIE leak) -> need to read
-
-# tmp
-info proc mappings
-x/8gx 0x561fe96a8000 + 0x5100
-
-
-
-#---------------------------------------------------------------------------------
-# code
-
-
 void 01_main(void)
 
 {
@@ -536,4 +482,3 @@ void 14_writeFile(void)
   }
   return;
 }
-
