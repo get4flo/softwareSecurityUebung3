@@ -35,6 +35,15 @@ python3 exploit.py LOCAL GDB
 # get libc version
 ./libc.so.6 --version
 
+# check heap for strings (use heap start and end to define search range)
+find 0x63d8caa40000, 0x63d8caa61000, "user1"
+
+# search binary address space for pointer
+find 0x5d1f3b5ef000, 0x5d1f3b610000, 0x5d1f3b5ef2a0
+
+# partial match
+find 0x5d1f3b5ef000, 0x5d1f3b610000, 0x5d1f
+
 
 # attack ideas
 
@@ -44,10 +53,27 @@ python3 exploit.py LOCAL GDB
 
 # tmp
 info proc mappings
-x/8gx 0x561fe96a8000 + 0x5100
+x/8gx 0x56caa53ec000 + 0x5100
+x/12gx 0x56caa53ec000 + 0x5100
+
+# file pointer
+# addr of file : *(FILE **)(*(long *)(DAT_00105130 + (ulong)DAT_001050a0 * 8) + 0x18)
+# DAT_00105130 (pie_base + 0x5130)-> (dereferenced) -> (pie_base + 0x5140) -> + 0x18 -> (dereferenced) -> 0x00007423fbad2480
+# deref worked: (0x611c43747000 + 0x5100): 0x0000611c4374c140 -> (0x0000611c4374c140):0x0000611c70e94300 + 0x18 
+# -> (0x611c70e94318):0x0000611c70e94750 -> (0x0000611c70e94750): 0x000078c6fbad2480
+# libc base: 0x78c60fb8c000
+
+read base: 0x56c492cdf100
+
+# file struct
+0x5d1f3b5ef750: 0x0000767ffbad2480      0x00005d1f3b5ef9c0 // flags, read_ptr
+0x5d1f3b5ef760: 0x00005d1f3b5ef9c5      0x00005d1f3b5ef990 // read_end, read_base
+0x5d1f3b5ef770: 0x00005d1f3b5ef990      0x00005d1f3b5ef990 // write_base, write_ptr
+0x5d1f3b5ef780: 0x00005d1f3b5ef990      0x00005d1f3b5ef990 // write_end, IO_buf_base
+0x5d1f3b5ef790: 0x00005d1f3b5f0990      0x0000000000000000 // IO_buf_end
 
 
-
+von: 0x74947681e000 - 0x749476a36000
 #---------------------------------------------------------------------------------
 # code
 
