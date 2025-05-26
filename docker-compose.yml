@@ -15,19 +15,9 @@ services:
     networks:
       - exploit
     depends_on:
-      - homework-dev
+      - homework
     volumes:
       - "./exploit.py:/code/exploit.py"
-
-  homework-dev:
-    build:
-      context: .
-      dockerfile: ./challengeDev.docker
-    ports:
-      - "1337:1337"
-      - "1338:1338"
-    networks:
-      - exploit
 
 networks:
   exploit:

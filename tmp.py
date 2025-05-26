@@ -85,6 +85,30 @@ def test5():
     base = 0x5d1f3b5ef000
     inp = 0x5d1f3b5ef320 - base
     print(hex(inp))
+    
+def test6():
+    base = 0x7d657a08c000
+    diff = 0x00007d657a25f680 - base
+    print(hex(diff))
+    
+def test7():
+    # verify libc leak
+    true = 0x7fc328f83000
+    calc = 0x7fc328f83000
+    print(true == calc)
+    
+def test8():
+    base = 0x5bc6e5efc000
+    currentGotPrintf = 0x5bc6e5f01030
+    print(hex(currentGotPrintf - base))
+    
+def test9():
+    from one_gadget import generate_one_gadget
+
+    path_to_libc = '/code/libc.so.6'
+
+    for offset in generate_one_gadget(path_to_libc):
+        print(offset)
 
 # execute
-test4()
+test9()
